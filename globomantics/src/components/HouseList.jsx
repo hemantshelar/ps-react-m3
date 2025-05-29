@@ -1,6 +1,7 @@
+import { useState } from "react";
 import HouseRow from "./HouseRow";
 
-const houses = [
+const houseArray = [
  {
     id: 1,
     address: '123 Elm St',
@@ -16,6 +17,22 @@ const houses = [
 ];
 
 const HouseList = () =>{
+    //Call hook at top level of the component
+    const [houses,setHouses] = useState(houseArray);
+
+    const addHouse = () =>{
+        const newHouse = {
+            id: houses.length + 1,
+            address: `New House ${houses.length + 1}`,
+            country: 'USA',
+            price: Math.floor(Math.random() * 1000000) + 500000
+        };
+        setHouses([
+            ...houses,
+            newHouse
+        ]);
+
+    };
 
     return (
         <>
@@ -40,6 +57,14 @@ const HouseList = () =>{
                     }
                 </tbody>
             </table>
+            <div>
+                <button className="btn btn-primary" onClick={addHouse}>
+                    Add House
+                </button>
+                <button className="btn btn-danger" onClick={() => {setHouses([])}}>
+                    Clear Houses
+                </button>
+            </div>
         </>
     )
 };
