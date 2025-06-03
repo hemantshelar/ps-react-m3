@@ -27,10 +27,13 @@ const HouseList = () =>{
     //Call hook at top level of the component
     const [houses,setHouses] = useState([]);
     useEffect(()=>{
-        console.log('Fetching houses');
-        fetchHouses().then((data) => {
+            const fetchHouses = async ()=> {
+            const url = 'https://localhost:4000/houses';
+            const response = await fetch(url);
+            const data = await response.json();
             setHouses(data);
-        });
+        }
+        fetchHouses()
 
     },[]);
 
