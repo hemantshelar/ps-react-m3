@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import HouseRow from "./HouseRow";
 
 const houseArray = [
@@ -16,9 +16,23 @@ const houseArray = [
  },
 ];
 
+const fetchHouses = async ()=> {
+    const url = 'https://localhost:4000/houses';
+    const response = await fetch(url);
+    const data = await response.json();
+    return data;
+}
+
 const HouseList = () =>{
     //Call hook at top level of the component
-    const [houses,setHouses] = useState(houseArray);
+    const [houses,setHouses] = useState([]);
+    useEffect(()=>{
+        console.log('Fetching houses');
+        fetchHouses().then((data) => {
+            setHouses(data);
+        });
+
+    },[]);
 
     const addHouse = () =>{
         const newHouse = {
@@ -31,7 +45,6 @@ const HouseList = () =>{
             ...houses,
             newHouse
         ]);
-
     };
 
     return (
