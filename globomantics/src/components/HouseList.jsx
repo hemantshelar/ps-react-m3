@@ -1,42 +1,20 @@
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 import HouseRow from "./HouseRow";
 
-const houseArray = [
- {
-    id: 1,
-    address: '123 Elm St',
-    country: 'USA',
-    price: 900000
- },
- {
-    id: 2,
-    address: '1234 Elm St',
-    country: 'USA',
-    price: 800000
- },
-];
-
-const fetchHouses = async ()=> {
+const fetchHousesFromApi =  async () => {
     const url = 'https://localhost:4000/houses';
     const response = await fetch(url);
     const data = await response.json();
     return data;
 }
 
-const HouseList = () =>{
+const result = fetchHousesFromApi();
+
+const HouseList = () => {
     //Call hook at top level of the component
-    const [houses,setHouses] = useState([]);
-    useEffect(()=>{
-            const fetchHouses = async ()=> {
-            const url = 'https://localhost:4000/houses';
-            const response = await fetch(url);
-            const data = await response.json();
-            setHouses(data);
-        }
-        fetchHouses()
-
-    },[]);
-
+    const houseArray = use(result);
+    const [houses,setHouses] = useState(houseArray);
+    
     const addHouse = () =>{
         const newHouse = {
             id: houses.length + 1,
